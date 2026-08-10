@@ -1,0 +1,17 @@
+{
+  "name": "mcp-studio-sdk-sample-apps",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Sample Next.js apps embedding MCP Studio SDK in different product concepts.",
+  "workspaces": [
+    "apps/*"
+  ],
+  "scripts": {
+    "dev:helpdesk": "npm --workspace apps/helpdesk-iq run dev",
+    "dev:policy": "npm --workspace apps/policy-pilot run dev",
+    "dev:lms": "npm --workspace apps/knowledgecloud-lms run dev",
+    "build:helpdesk": "npm --workspace apps/helpdesk-iq run build",
+    "build:policy": "npm --workspace apps/policy-pilot run build",
+    "build:lms": "npm --workspace apps/knowledgecloud-lms run build"
+  }
+}
