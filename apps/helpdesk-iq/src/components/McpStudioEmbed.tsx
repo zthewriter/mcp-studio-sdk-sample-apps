@@ -16,6 +16,9 @@ type EmbedProps = {
 
 export default function McpStudioEmbed({ containerId }: EmbedProps) {
   const clientId = process.env.NEXT_PUBLIC_MCP_STUDIO_CLIENT_ID ?? "";
+  const embedScriptUrl =
+    process.env.NEXT_PUBLIC_MCP_STUDIO_EMBED_URL ??
+    "https://appatools.com/mcp-studio-sdk/embed.js";
 
   const config = useMemo(
     () => ({
@@ -54,7 +57,7 @@ export default function McpStudioEmbed({ containerId }: EmbedProps) {
     }
 
     const script = document.createElement("script");
-    script.src = "https://sdk.appatools.com/embed.js";
+    script.src = embedScriptUrl;
     script.async = true;
     script.onload = init;
     document.body.appendChild(script);
@@ -62,7 +65,7 @@ export default function McpStudioEmbed({ containerId }: EmbedProps) {
     return () => {
       script.onload = null;
     };
-  }, [clientId, config]);
+  }, [clientId, config, embedScriptUrl]);
 
   if (!clientId) {
     return (

@@ -19,7 +19,7 @@ These are intentionally simple, concept-first examples for inspiration. They do 
 
 - Next.js App Router fullstack setup
 - One API route with mock business data
-- An `McpStudioEmbed` component that loads `https://sdk.appatools.com/embed.js`
+- An `McpStudioEmbed` component that loads `https://appatools.com/mcp-studio-sdk/embed.js`
 - Safe placeholder SDK config (`NEXT_PUBLIC_MCP_STUDIO_CLIENT_ID`)
 - A README explaining:
   - the company concept
