@@ -3,10 +3,24 @@ node_modules
 .next
 dist
 
-# Env
+# secrets — never commit
+# .env.* covers named environments (.env.production, .env.staging, ...),
+# which the earlier .env.*.local pattern let through. The per-app
+# .env.example templates stay tracked via the negation.
 .env
-.env.local
-.env.*.local
+.env.*
+!.env.example
+
+# .projects/ is Stripe Projects CLI state; state.local.json holds credentials.
+.projects/
+
+# private keys and certificates
+*.pem
+*.key
+*.p12
+*.pfx
+*.keystore
+*.jks
 
 # Logs
 npm-debug.log*
