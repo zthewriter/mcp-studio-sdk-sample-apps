@@ -104,3 +104,9 @@ Do not rename the secret to `NEXT_PUBLIC_MCP_STUDIO_CLIENT_SECRET`. Next.js inli
 ## Notes
 
 These demos are UI-first and intentionally lightweight. Replace the mock API data and branding with your own to build a tailored demo.
+
+PolicyPilot includes one ready-made policy document, the Harborline Ferries terms of carriage:
+
+https://zthewriter.github.io/harborline-brand/terms-of-carriage.pdf
+
+Paste that URL into the embedded wizard, or upload `apps/policy-pilot/public/demo/harborline-terms-of-carriage.pdf`.

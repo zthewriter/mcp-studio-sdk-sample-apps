@@ -19,6 +19,14 @@ With embedded MCP Studio SDK, each team can create an MCP server from:
 - Faster audit prep with easier retrieval of approved source content
 - Self-serve setup for compliance teams without custom engineering
 
+## Demo policy document
+
+The wizard has nothing indexed until you give it a source. This app includes a public sample policy, the Harborline Ferries terms of carriage:
+
+https://zthewriter.github.io/harborline-brand/terms-of-carriage.pdf
+
+Paste that URL into the wizard. The same PDF is also in `public/demo/harborline-terms-of-carriage.pdf`, so you can upload the file from this repo instead. Harborline Ferries is a fictional operator. The document is a demo asset, not a real contract.
+
 ## Where MCP Studio is embedded
 
 See `src/app/page.tsx`:

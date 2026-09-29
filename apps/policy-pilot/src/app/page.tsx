@@ -34,6 +34,21 @@ export default function HomePage() {
           Concept demo for a compliance and legal operations platform where each customer builds an
           MCP server from internal policies, controls, and audit evidence.
         </p>
+        <div className="demo-source">
+          <strong>Demo policy document</strong>
+          <p>
+            Paste this URL into the wizard as a source. It is the Harborline Ferries terms of
+            carriage, a public sample policy.
+          </p>
+          <a href="https://zthewriter.github.io/harborline-brand/terms-of-carriage.pdf">
+            https://zthewriter.github.io/harborline-brand/terms-of-carriage.pdf
+          </a>
+          <p>
+            A copy also ships with this app at{" "}
+            <a href="/demo/harborline-terms-of-carriage.pdf">/demo/harborline-terms-of-carriage.pdf</a>{" "}
+            if you want to upload the file instead.
+          </p>
+        </div>
       </section>
 
       <section className="grid">
