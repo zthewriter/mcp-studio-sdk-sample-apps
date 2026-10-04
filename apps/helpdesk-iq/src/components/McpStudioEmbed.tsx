@@ -93,21 +93,44 @@ export default function McpStudioEmbed({ containerId }: EmbedProps) {
       container: `#${containerId}`,
       layout: "horizontal",
       domain: "appatools.com",
+      font: "Inter",
+      // Every key is listed so each one can be edited in place: an omitted tool
+      // or source type is enabled by default.
       tools: {
         search_docs: true,
-        extract_code: true,
-        find_apis: true,
+        query_source: true,
+        search_issues: true,
+        get_code_examples: true,
+        extract_schema: true,
+        summarize_content: true,
+        ask_question: true,
+        find_api_reference: true,
+        get_changelog: true,
+        get_quickstart: true,
       },
       sources: {
         website: true,
         github: true,
-        documentation: true,
-        mcp_server: false,
+        docs: true,
+        api: true,
+        mcp: false,
       },
       colors: {
         background: "#ffffff",
+        foreground: "#111827",
         primary: "#111827",
+        primaryForeground: "#ffffff",
+        secondary: "#f3f4f6",
+        card: "#ffffff",
+        cardBorder: "#e5e7eb",
+        stepperActive: "#2563eb",
+        stepperComplete: "#111827",
         accent: "#7c3aed",
+      },
+      analytics: {
+        enabled: false,
+        tier: "core",
+        metrics: ["total_calls", "success_rate", "avg_duration", "tool_usage", "source_usage"],
       },
     };
   }, [session, containerId]);
@@ -123,14 +146,22 @@ export default function McpStudioEmbed({ containerId }: EmbedProps) {
       return;
     }
 
-    const script = document.createElement("script");
-    script.src = embedScriptUrl;
-    script.async = true;
-    script.onload = init;
-    document.body.appendChild(script);
+    // Reuse a script that is still loading: editing the config re-runs this
+    // effect, and a second copy would initialize the wizard twice.
+    let script = document.querySelector<HTMLScriptElement>(
+      `script[src="${embedScriptUrl}"]`,
+    );
+    if (!script) {
+      script = document.createElement("script");
+      script.src = embedScriptUrl;
+      script.async = true;
+      document.body.appendChild(script);
+    }
+    const loading = script;
+    loading.addEventListener("load", init);
 
     return () => {
-      script.onload = null;
+      loading.removeEventListener("load", init);
     };
   }, [config, embedScriptUrl]);
 
