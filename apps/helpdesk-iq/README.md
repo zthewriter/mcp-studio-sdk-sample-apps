@@ -34,6 +34,21 @@ See `src/app/page.tsx`:
 - Source types focused on websites/docs/GitHub
 - Neutral color palette to match B2B support UI
 
+## SDK features in this app
+
+Each customer company is one MCP Studio end user, so you switch workspaces at the top of the page.
+
+| Feature | How HelpDesk IQ uses it | Where |
+|---|---|---|
+| End-user accounts | Acme, Globex, and Initech each get their own servers, dashboard, and analytics | `src/lib/demo-users.ts`, `src/app/api/mcp-studio/session/route.ts` |
+| Branding | The plan from the public embed config sets the per-customer limit; the header names the watermark | `src/app/api/workspaces/route.ts` |
+| Portal API key + REST | Counts each customer's servers and requests with `X-MCP-Studio-End-User` | `src/app/api/workspaces/route.ts` |
+| Business Intelligence | The support manager ranks customers by MCP requests, with a drill-down link to each in the portal | `src/app/page.tsx` |
+| Limits | At the per-customer ceiling (Free 1, Pro 10) the wizard is replaced with an explanation | `src/app/page.tsx` |
+| Headless MCP | The escalation lookup runs `list_servers` as the selected customer | `src/app/api/escalation/route.ts` |
+
+The API-key panels need `MCP_STUDIO_API_KEY`; without it they say how to add one.
+
 ## Fullstack pieces
 
 - `src/app/api/tickets/route.ts` provides mock support queue metrics

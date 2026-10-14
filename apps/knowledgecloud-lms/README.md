@@ -34,6 +34,21 @@ See `src/app/page.tsx`:
 - Source mix including docs and GitHub for technical training
 - Teal accent palette to mimic learning platform styling
 
+## SDK features in this app
+
+Each instructor is one MCP Studio end user. Switch between instructors, or to the learning admin who oversees them.
+
+| Feature | How KnowledgeCloud uses it | Where |
+|---|---|---|
+| End-user accounts | Each instructor builds and manages the server behind their course | `src/lib/demo-users.ts`, `src/app/api/mcp-studio/session/route.ts` |
+| Branding | "What instructors see" fetches the public embed config from the browser and previews the watermark or logo | `src/app/page.tsx` |
+| Portal API key + REST | The admin's roster lists every instructor's course servers | `src/app/api/roster/route.ts` |
+| Limits | Course seats per instructor and the shared monthly request pool; a full seat replaces the wizard for that instructor | `src/app/page.tsx` |
+| Headless MCP | **Retire** runs `delete_server` with `confirm: true` as the instructor, after the admin confirms | `src/app/api/retire/route.ts` |
+| Business Intelligence | **Insights** opens that instructor in the portal's Business Intelligence page | `src/app/page.tsx` |
+
+The API-key panels need `MCP_STUDIO_API_KEY`; without it they say how to add one.
+
 ## Fullstack pieces
 
 - `src/app/api/courses/route.ts` provides mock program and course metrics

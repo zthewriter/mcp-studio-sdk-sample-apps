@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import SetupNotice from "./SetupNotice";
 
 declare global {
@@ -15,6 +15,12 @@ declare global {
 
 type EmbedProps = {
   containerId: string;
+  /** The signed-in user of your app. Each one gets their own servers. */
+  endUserId: string;
+  /** Shown instead of the wizard, for example when this user is at their plan's limit. */
+  createBlocked?: ReactNode;
+  onViewChange?: (view: View) => void;
+  onServerCreated?: (server: { serverId: string; name: string }) => void;
 };
 
 type SessionState =
@@ -23,9 +29,24 @@ type SessionState =
   | { status: "not_configured"; missing: string[] }
   | { status: "error"; title: string; detail: string };
 
-export default function McpStudioEmbed({ containerId }: EmbedProps) {
+export default function McpStudioEmbed({
+  containerId,
+  endUserId,
+  createBlocked,
+  onViewChange,
+  onServerCreated,
+}: EmbedProps) {
   const [session, setSession] = useState<SessionState>({ status: "loading" });
   const [view, setView] = useState<View>("init");
+  const blocked = view === "init" && Boolean(createBlocked);
+  // A ref, so a new callback from the parent does not re-initialize the wizard.
+  const created = useRef(onServerCreated);
+  created.current = onServerCreated;
+
+  const selectView = (next: View) => {
+    setView(next);
+    onViewChange?.(next);
+  };
 
   const embedScriptUrl =
     process.env.NEXT_PUBLIC_MCP_STUDIO_EMBED_URL ??
@@ -35,8 +56,9 @@ export default function McpStudioEmbed({ containerId }: EmbedProps) {
   // never here, so nothing in this file can leak it into the bundle.
   useEffect(() => {
     let cancelled = false;
+    setSession({ status: "loading" });
 
-    fetch("/api/mcp-studio/session", { cache: "no-store" })
+    fetch(`/api/mcp-studio/session?user=${encodeURIComponent(endUserId)}`, { cache: "no-store" })
       .then(async (res) => {
         const body = await res.json().catch(() => null);
         if (cancelled) return;
@@ -84,7 +106,7 @@ export default function McpStudioEmbed({ containerId }: EmbedProps) {
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [endUserId]);
 
   const config = useMemo(() => {
     if (session.status !== "ready") return null;
@@ -133,6 +155,7 @@ export default function McpStudioEmbed({ containerId }: EmbedProps) {
         stepperComplete: "#111827",
         accent: "#0ea5e9",
       },
+      onServerCreated: (server: { serverId: string; name: string }) => created.current?.(server),
       analytics: {
         enabled: false,
         tier: "core",
@@ -143,7 +166,7 @@ export default function McpStudioEmbed({ containerId }: EmbedProps) {
 
   // Step 2: load the embed script and initialise it with the session.
   useEffect(() => {
-    if (!config) return;
+    if (!config || blocked) return;
 
     const init = () => {
       if (view === "init") window.MCPStudio?.init(config);
@@ -172,7 +195,7 @@ export default function McpStudioEmbed({ containerId }: EmbedProps) {
     return () => {
       loading.removeEventListener("load", init);
     };
-  }, [config, embedScriptUrl, view]);
+  }, [config, embedScriptUrl, view, blocked]);
 
   if (session.status === "loading") {
     return <p style={{ color: "#6b7280", fontSize: 14 }}>Starting MCP Studio session…</p>;
@@ -209,7 +232,7 @@ export default function McpStudioEmbed({ containerId }: EmbedProps) {
               key={key}
               role="tab"
               aria-selected={view === key}
-              onClick={() => setView(key)}
+              onClick={() => selectView(key)}
               style={{
                 padding: "6px 12px",
                 borderRadius: 8,
@@ -226,12 +249,12 @@ export default function McpStudioEmbed({ containerId }: EmbedProps) {
         </div>
       )}
       {/* A fresh node per tab, so a slow load from the previous tab cannot paint here. */}
-      <div id={containerId} key={view} />
+      {blocked ? createBlocked : <div id={containerId} key={`${endUserId}-${view}`} />}
     </>
   );
 }
 
-type View = "init" | "dashboard" | "analytics";
+export type View = "init" | "dashboard" | "analytics";
 
 const TABS: [View, string][] = [
   ["init", "Create a server"],
