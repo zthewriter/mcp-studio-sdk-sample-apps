@@ -7,6 +7,8 @@ declare global {
   interface Window {
     MCPStudio?: {
       init: (config: Record<string, unknown>) => void;
+      dashboard: (config: Record<string, unknown>) => void;
+      analytics: (config: Record<string, unknown>) => void;
     };
   }
 }
@@ -17,12 +19,13 @@ type EmbedProps = {
 
 type SessionState =
   | { status: "loading" }
-  | { status: "ready"; clientId: string; attributionToken: string }
+  | { status: "ready"; clientId: string; attributionToken: string; sessionToken: string | null }
   | { status: "not_configured"; missing: string[] }
   | { status: "error"; title: string; detail: string };
 
 export default function McpStudioEmbed({ containerId }: EmbedProps) {
   const [session, setSession] = useState<SessionState>({ status: "loading" });
+  const [view, setView] = useState<View>("init");
 
   const embedScriptUrl =
     process.env.NEXT_PUBLIC_MCP_STUDIO_EMBED_URL ??
@@ -43,6 +46,7 @@ export default function McpStudioEmbed({ containerId }: EmbedProps) {
             status: "ready",
             clientId: body.clientId,
             attributionToken: body.attributionToken,
+            sessionToken: typeof body.sessionToken === "string" ? body.sessionToken : null,
           });
           return;
         }
@@ -92,7 +96,9 @@ export default function McpStudioEmbed({ containerId }: EmbedProps) {
       attributionToken: session.attributionToken,
       container: `#${containerId}`,
       layout: "horizontal",
-      domain: "appatools.com",
+      // Identifies this end user, so the wizard deploys in place and the
+      // dashboard and analytics tabs show their servers.
+      sessionToken: session.sessionToken ?? undefined,
       font: "Inter",
       // Every key is listed so each one can be edited in place: an omitted tool
       // or source type is enabled by default.
@@ -139,7 +145,10 @@ export default function McpStudioEmbed({ containerId }: EmbedProps) {
   useEffect(() => {
     if (!config) return;
 
-    const init = () => window.MCPStudio?.init(config);
+    const init = () => {
+      if (view === "init") window.MCPStudio?.init(config);
+      else window.MCPStudio?.[view]({ clientId: config.clientId, sessionToken: config.sessionToken, container: config.container });
+    };
 
     if (window.MCPStudio) {
       init();
@@ -163,7 +172,7 @@ export default function McpStudioEmbed({ containerId }: EmbedProps) {
     return () => {
       loading.removeEventListener("load", init);
     };
-  }, [config, embedScriptUrl]);
+  }, [config, embedScriptUrl, view]);
 
   if (session.status === "loading") {
     return <p style={{ color: "#6b7280", fontSize: 14 }}>Starting MCP Studio session…</p>;
@@ -191,5 +200,41 @@ export default function McpStudioEmbed({ containerId }: EmbedProps) {
     );
   }
 
-  return <div id={containerId} />;
+  return (
+    <>
+      {session.sessionToken && (
+        <div role="tablist" style={{ display: "flex", gap: 8, marginBottom: 12 }}>
+          {TABS.map(([key, label]) => (
+            <button
+              key={key}
+              role="tab"
+              aria-selected={view === key}
+              onClick={() => setView(key)}
+              style={{
+                padding: "6px 12px",
+                borderRadius: 8,
+                border: "1px solid #e5e7eb",
+                background: view === key ? "#0f172a" : "#ffffff",
+                color: view === key ? "#ffffff" : "#0f172a",
+                cursor: "pointer",
+                fontSize: 14,
+              }}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
+      )}
+      {/* A fresh node per tab, so a slow load from the previous tab cannot paint here. */}
+      <div id={containerId} key={view} />
+    </>
+  );
 }
+
+type View = "init" | "dashboard" | "analytics";
+
+const TABS: [View, string][] = [
+  ["init", "Create a server"],
+  ["dashboard", "My servers"],
+  ["analytics", "Analytics"],
+];

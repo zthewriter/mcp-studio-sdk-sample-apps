@@ -40,7 +40,11 @@ export async function GET() {
   }
 
   return NextResponse.json(
-    { clientId: credentials.clientId, attributionToken: minted.token },
+    {
+      clientId: credentials.clientId,
+      attributionToken: minted.token,
+      sessionToken: minted.sessionToken,
+    },
     { headers: { "cache-control": "no-store" } },
   );
 }

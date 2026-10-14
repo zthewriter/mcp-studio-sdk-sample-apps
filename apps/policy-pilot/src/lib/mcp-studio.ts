@@ -42,7 +42,7 @@ export function readCredentials(): CredentialsResult {
 }
 
 type MintResult =
-  | { ok: true; token: string }
+  | { ok: true; token: string; sessionToken: string | null }
   | { ok: false; status: number; detail: string };
 
 /**
@@ -89,10 +89,14 @@ export async function mintAttributionToken(args: {
     return { ok: false, status: res.status, detail: detail.slice(0, 300) };
   }
 
-  const data = (await res.json().catch(() => null)) as { token?: string } | null;
+  const data = (await res.json().catch(() => null)) as
+    | { token?: string; sessionToken?: string }
+    | null;
   if (!data?.token) {
     return { ok: false, status: res.status, detail: "Response contained no token." };
   }
 
-  return { ok: true, token: data.token };
+  // Returned because endUserId was sent. It lasts 60 minutes, is reusable, and
+  // lets that one user deploy in place and manage their servers.
+  return { ok: true, token: data.token, sessionToken: data.sessionToken ?? null };
 }
