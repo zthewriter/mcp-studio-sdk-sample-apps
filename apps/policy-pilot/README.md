@@ -25,7 +25,7 @@ The wizard has nothing indexed until you give it a source. This app includes a p
 
 https://zthewriter.github.io/harborline-brand/terms-of-carriage.pdf
 
-Paste that URL into the wizard. The same PDF is also in `public/demo/harborline-terms-of-carriage.pdf`, so you can upload the file from this repo instead. Harborline Ferries is a fictional operator. The document is a demo asset, not a real contract.
+Press **Provision** to create a server from it through the REST API, or paste the URL into the wizard. File uploads need an MCP Studio sign-in, so embedded end users add documents by URL. Harborline Ferries is a fictional operator. The document is a demo asset, not a real contract.
 
 ## Where MCP Studio is embedded
 
@@ -40,6 +40,21 @@ See `src/app/page.tsx`:
 - Tool set tuned toward documentation retrieval and summarization
 - Source selection that emphasizes policy documentation and existing MCP sources
 - Enterprise-style color palette
+
+## SDK features in this app
+
+Each framework owner (SOC 2, HIPAA, ISO 27001) is one MCP Studio end user, so you switch owners at the top of the page.
+
+| Feature | How PolicyPilot uses it | Where |
+|---|---|---|
+| End-user accounts | Each owner gets their own policy servers, dashboard, and analytics | `src/lib/demo-users.ts`, `src/app/api/mcp-studio/session/route.ts` |
+| Portal API key + REST | **Provision** creates the owner's approved-policy server from the backend, with no wizard | `src/app/api/provision/route.ts` |
+| Limits | A second provision is refused, and the refusal is shown as MCP Studio wrote it for end users | `src/app/api/provision/route.ts` |
+| Business Intelligence | Audit evidence lists each server's access, requests, and answer rate, with a deep link to the owner in the portal | `src/app/api/audit/route.ts` |
+| Branding | The audit card carries a vendor disclosure line based on the plan's branding | `src/app/api/audit/route.ts` |
+| Headless MCP | **Restrict** runs `set_server_visibility` as the owner; a Cursor `mcp.json` snippet shows the same connection | `src/app/api/restrict/route.ts` |
+
+The API-key panels need `MCP_STUDIO_API_KEY`; without it they say how to add one.
 
 ## Fullstack pieces
 

@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { mintAttributionToken, readCredentials } from "../../../../lib/mcp-studio";
+import { findDemoUser } from "../../../../lib/demo-users";
 
 /**
  * Starts one embed session.
@@ -13,7 +14,16 @@ import { mintAttributionToken, readCredentials } from "../../../../lib/mcp-studi
  */
 export const dynamic = "force-dynamic";
 
-export async function GET() {
+export async function GET(request: Request) {
+  // Your app would read this from its own signed-in session, never from the
+  // query string: whoever controls endUserId acts as that user. The samples have
+  // no accounts, so the page picks a demo user and this route checks it against
+  // a fixed list.
+  const user = findDemoUser(new URL(request.url).searchParams.get("user"));
+  if (!user) {
+    return NextResponse.json({ error: "unknown_user" }, { status: 400 });
+  }
+
   const credentials = readCredentials();
 
   if (!credentials.ok) {
@@ -23,13 +33,10 @@ export async function GET() {
     );
   }
 
-  // A real application would pass the id of the signed-in user, which lets you
-  // tell later which of your users created a given MCP server. This sample has
-  // no accounts, so it sends a fixed id to show where yours belongs.
   const minted = await mintAttributionToken({
     clientId: credentials.clientId,
     clientSecret: credentials.clientSecret,
-    endUserId: "demo-policy-user-1",
+    endUserId: user.id,
   });
 
   if (!minted.ok) {
