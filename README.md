@@ -51,6 +51,8 @@ Your **Client ID is public**. It ships to the browser in the embed config, so an
 
 Your **Client Secret is not public**. Your backend exchanges it for a short-lived attribution token, and only that token goes to the browser. It expires in 15 minutes and can be spent once.
 
+The same exchange sends an `endUserId` and gets back a **session token** for that one user. With it, the wizard deploys the server in place, and the **My servers** and **Analytics** tabs show that user's servers through `MCPStudio.dashboard` and `MCPStudio.analytics`. The samples have no accounts, so each app uses one fixed id; yours should be the signed-in user's. See [End-user dashboard](https://docs.appatools.com/sdk/guides/end-user-dashboard).
+
 These samples demonstrate that full flow rather than the shortest thing that renders, because the shortest thing that renders is an unverified session, and an unverified session cannot bill overage.
 
 ```mermaid
@@ -109,4 +111,4 @@ PolicyPilot includes one ready-made policy document, the Harborline Ferries term
 
 https://zthewriter.github.io/harborline-brand/terms-of-carriage.pdf
 
-Paste that URL into the embedded wizard, or upload `apps/policy-pilot/public/demo/harborline-terms-of-carriage.pdf`.
+Paste that URL into the embedded wizard.
