@@ -1,5 +1,7 @@
 # Raglantern SDK Sample Apps
 
+> Raglantern SDK was formerly named MCP Studio SDK. Only the name changed; credentials, URLs, and the `MCPStudio` embed global are the same.
+
 Working demo apps showing how to embed **Raglantern SDK** in a Next.js product. Each one is a complete, runnable integration you can clone, point at your own credentials, and see live.
 
 These contain no Raglantern internals and no credentials. You supply your own.
