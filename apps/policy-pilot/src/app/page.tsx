@@ -265,7 +265,7 @@ export default function HomePage() {
         <article className="card">
           <h2>{owner.label}&apos;s policy servers</h2>
           <p className="muted">
-            {owner.label} builds and manages servers here without an MCP Studio account. Their
+            {owner.label} builds and manages servers here without a Raglantern account. Their
             limits come from PolicyPilot&apos;s SDK plan.
           </p>
           <McpStudioEmbed

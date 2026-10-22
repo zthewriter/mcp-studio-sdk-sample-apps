@@ -3,7 +3,7 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "PolicyPilot Sample",
-  description: "A compliance and legal operations concept embedding MCP Studio SDK.",
+  description: "A compliance and legal operations concept embedding Raglantern SDK.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

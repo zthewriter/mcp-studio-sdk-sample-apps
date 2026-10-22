@@ -28,7 +28,7 @@ export default function SetupNotice({ missing }: SetupNoticeProps) {
       }}
     >
       <strong style={{ display: "block", marginBottom: 8, color: "#111827" }}>
-        Add your MCP Studio credentials to run this demo
+        Add your Raglantern credentials to run this demo
       </strong>
 
       <p style={{ marginTop: 0, fontSize: 14, color: "#4b5563" }}>
@@ -42,7 +42,7 @@ export default function SetupNotice({ missing }: SetupNoticeProps) {
           rel="noreferrer"
           style={{ color: "#7c3aed" }}
         >
-          MCP Studio SDK portal
+          Raglantern SDK portal
         </a>
         .
       </p>

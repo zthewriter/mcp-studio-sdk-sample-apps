@@ -1,7 +1,7 @@
 /**
- * HelpDesk IQ's customers. Each customer company is one MCP Studio end user,
+ * HelpDesk IQ's customers. Each customer company is one Raglantern end user,
  * so its servers, dashboard, and analytics are separate from every other
- * customer's. None of them needs an MCP Studio account.
+ * customer's. None of them needs a Raglantern account.
  */
 export const DEMO_USERS = [
   { id: "helpdesk-acme", label: "Acme Robotics", segment: "Enterprise" },

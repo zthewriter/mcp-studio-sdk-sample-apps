@@ -1,7 +1,6 @@
 /**
- * PolicyPilot's users are compliance framework owners. Each owner is one MCP
- * Studio end user, so the SOC 2 owner's servers and analytics are separate
- * from the HIPAA owner's. None of them needs an MCP Studio account.
+ * PolicyPilot's users are compliance framework owners. Each owner is one Raglantern end user, so the SOC 2 owner's servers and analytics are separate
+ * from the HIPAA owner's. None of them needs a Raglantern account.
  */
 export const DEMO_USERS = [
   { id: "policy-soc2-owner", label: "Priya Raman", framework: "SOC 2" },
