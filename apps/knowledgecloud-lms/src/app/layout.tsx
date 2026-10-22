@@ -3,7 +3,7 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "KnowledgeCloud LMS Sample",
-  description: "A learning platform concept embedding MCP Studio SDK for course assistants.",
+  description: "A learning platform concept embedding Raglantern SDK for course assistants.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

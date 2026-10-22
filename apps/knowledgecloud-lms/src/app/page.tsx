@@ -181,7 +181,7 @@ export default function HomePage() {
           <article className="card">
             <h2>{instructor.course}</h2>
             <p className="muted">
-              {instructor.label} builds the course server here without an MCP Studio account. The
+              {instructor.label} builds the course server here without a Raglantern account. The
               Analytics tab shows how learners&apos; tutors are using it.
             </p>
             <McpStudioEmbed
@@ -209,7 +209,7 @@ export default function HomePage() {
             <p className="muted">
               Each instructor has {seats} course server seat{seats === 1 ? "" : "s"}, and all of them
               share KnowledgeCloud&apos;s {roster?.monthlyRequests.toLocaleString() ?? "1,000"} MCP
-              requests a month. Instructors never see MCP Studio&apos;s own free-tier limits.
+              requests a month. Instructors never see Raglantern&apos;s own free-tier limits.
             </p>
             {!roster?.hasApiKey ? (
               <div className="notice">

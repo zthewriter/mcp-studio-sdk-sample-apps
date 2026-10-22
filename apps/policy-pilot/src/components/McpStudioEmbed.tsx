@@ -85,8 +85,8 @@ export default function McpStudioEmbed({
           status: "error",
           title:
             body?.status === 401
-              ? "MCP Studio rejected these credentials"
-              : "Could not start an MCP Studio session",
+              ? "Raglantern rejected these credentials"
+              : "Could not start a Raglantern session",
           detail:
             body?.status === 401
               ? "The client id and client secret did not match a developer account. Copy both again from the portal — the secret is shown in full only when you generate it."
@@ -198,7 +198,7 @@ export default function McpStudioEmbed({
   }, [config, embedScriptUrl, view, blocked]);
 
   if (session.status === "loading") {
-    return <p style={{ color: "#6b7280", fontSize: 14 }}>Starting MCP Studio session…</p>;
+    return <p style={{ color: "#6b7280", fontSize: 14 }}>Starting Raglantern session…</p>;
   }
 
   if (session.status === "not_configured") {

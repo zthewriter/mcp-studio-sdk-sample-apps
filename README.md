@@ -1,8 +1,10 @@
-# MCP Studio SDK Sample Apps
+# Raglantern SDK Sample Apps
 
-Working demo apps showing how to embed **MCP Studio SDK** in a Next.js product. Each one is a complete, runnable integration you can clone, point at your own credentials, and see live.
+> Raglantern SDK was formerly named MCP Studio SDK. Only the name changed; credentials, URLs, and the `MCPStudio` embed global are the same.
 
-These contain no MCP Studio internals and no credentials. You supply your own.
+Working demo apps showing how to embed **Raglantern SDK** in a Next.js product. Each one is a complete, runnable integration you can clone, point at your own credentials, and see live.
+
+These contain no Raglantern internals and no credentials. You supply your own.
 
 ## Apps in this repo
 
@@ -24,7 +26,7 @@ Each app uses all six features, each in a way that fits its product, so you can 
 | **Branding** (`/api/sdk/embed-config`) | Read server-side; the plan sets the per-customer limit and the header names the watermark | Vendor disclosure line in the audit evidence | Browser-side "what instructors see" preview |
 | **Portal API keys** + REST | Counts each customer's servers and requests | Provisions an owner's approved-policy server from the backend, with no wizard | Builds the admin's instructor roster |
 | **Business Intelligence** | Support manager ranks customers by MCP requests, with a drill-down link per customer | Per-owner audit table (requests, answer rate) and a deep link to that owner | Per-instructor insights link from the roster |
-| **Limits** | "Using all of its servers" replaces the wizard at the per-customer ceiling | The REST refusal is shown as MCP Studio wrote it, ready for an end user | Course seats per instructor, plus the shared monthly request pool |
+| **Limits** | "Using all of its servers" replaces the wizard at the per-customer ceiling | The REST refusal is shown as Raglantern wrote it, ready for an end user | Course seats per instructor, plus the shared monthly request pool |
 | **Headless MCP** + `X-MCP-Studio-End-User` | Escalation lookup runs `list_servers` for one customer | "Restrict" runs `set_server_visibility`, plus a Cursor `mcp.json` snippet | "Retire course" runs `delete_server` with `confirm: true` |
 
 The Business Intelligence links open `https://appatools.com/mcp-studio-sdk/portal/analytics?endUserId=<id>`, which signs you in to the portal and shows that one customer. The full report is portal-only because it needs your developer sign-in.
@@ -33,7 +35,7 @@ The Business Intelligence links open `https://appatools.com/mcp-studio-sdk/porta
 
 You need your own credentials. The apps will not render the wizard without them, and the on-screen message tells you exactly what is missing.
 
-**1. Get credentials** from the [MCP Studio SDK portal](https://appatools.com/mcp-studio-sdk/portal). You need both the **Client ID** and the **Client Secret**. The secret is shown in full only when you generate it.
+**1. Get credentials** from the [Raglantern SDK portal](https://appatools.com/mcp-studio-sdk/portal). You need both the **Client ID** and the **Client Secret**. The secret is shown in full only when you generate it.
 
 **2. Install and configure:**
 
@@ -66,7 +68,7 @@ Your **Client ID is public**. It ships to the browser in the embed config, so an
 
 Your **Client Secret is not public**. Your backend exchanges it for a short-lived attribution token, and only that token goes to the browser. It expires in 15 minutes and can be spent once.
 
-The same exchange sends an `endUserId` and gets back a **session token** for that one user. With it, the wizard deploys the server in place, and the **My servers** and **Analytics** tabs show that user's servers through `MCPStudio.dashboard` and `MCPStudio.analytics`. End users never need an MCP Studio account, and their limits come from your SDK plan rather than MCP Studio's free tier. See [End-user dashboard](https://docs.appatools.com/sdk/guides/end-user-dashboard).
+The same exchange sends an `endUserId` and gets back a **session token** for that one user. With it, the wizard deploys the server in place, and the **My servers** and **Analytics** tabs show that user's servers through `MCPStudio.dashboard` and `MCPStudio.analytics`. End users never need a Raglantern account, and their limits come from your SDK plan rather than Raglantern's free tier. See [End-user dashboard](https://docs.appatools.com/sdk/guides/end-user-dashboard).
 
 The samples have no sign-in, so the page lets you pick a demo user and the session route accepts only ids from a fixed list (`src/lib/demo-users.ts`). In your app, take `endUserId` from your own signed-in session, never from the request: whoever controls it acts as that user.
 
@@ -80,7 +82,7 @@ These samples demonstrate that full flow rather than the shortest thing that ren
 flowchart LR
   A["Browser loads page"] --> B["GET /api/mcp-studio/session"]
   B --> C["Server reads CLIENT_SECRET"]
-  C --> D["MCP Studio mints token"]
+  C --> D["Raglantern mints token"]
   D --> E["Browser gets clientId + token"]
   E --> F["MCPStudio.init(...)"]
 ```
@@ -108,7 +110,7 @@ flowchart LR
 | `MCP_STUDIO_API_URL` | No | No |
 | `NEXT_PUBLIC_MCP_STUDIO_EMBED_URL` | No | Yes |
 
-Do not rename the secret to `NEXT_PUBLIC_MCP_STUDIO_CLIENT_SECRET`. Next.js inlines every `NEXT_PUBLIC_*` value into the JavaScript bundle, which would publish it to every visitor. MCP Studio additionally refuses the token exchange when it arrives from a browser, so that mistake fails loudly instead of leaking quietly.
+Do not rename the secret to `NEXT_PUBLIC_MCP_STUDIO_CLIENT_SECRET`. Next.js inlines every `NEXT_PUBLIC_*` value into the JavaScript bundle, which would publish it to every visitor. Raglantern additionally refuses the token exchange when it arrives from a browser, so that mistake fails loudly instead of leaking quietly.
 
 `.env.local` is gitignored. `.env.example` is the tracked template.
 
@@ -116,8 +118,8 @@ Do not rename the secret to `NEXT_PUBLIC_MCP_STUDIO_CLIENT_SECRET`. Next.js inli
 
 | What you see | Cause | Fix |
 |---|---|---|
-| "Add your MCP Studio credentials" | One or both values are missing or still the placeholder | Edit `.env.local`, then restart the dev server |
-| "MCP Studio rejected these credentials" | The ID and secret do not match a developer account | Copy both again from the portal |
+| "Add your Raglantern credentials" | One or both values are missing or still the placeholder | Edit `.env.local`, then restart the dev server |
+| "Raglantern rejected these credentials" | The ID and secret do not match a developer account | Copy both again from the portal |
 | Setup card persists after editing `.env.local` | Next.js reads env files at startup | Restart the dev server |
 | "Add an integrator API key" in a panel | `MCP_STUDIO_API_KEY` is not set | Create a key in the portal, add it to `.env.local`, restart |
 | A panel shows `Invalid end user` or 401 | The key is not an SDK portal key, or was revoked | Create a new key at Portal → API keys |

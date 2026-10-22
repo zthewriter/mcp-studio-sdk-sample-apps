@@ -3,7 +3,7 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "HelpDesk IQ Sample",
-  description: "A customer support SaaS concept embedding MCP Studio SDK.",
+  description: "A customer support SaaS concept embedding Raglantern SDK.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
