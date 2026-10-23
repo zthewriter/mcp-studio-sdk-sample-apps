@@ -9,7 +9,7 @@ import { findDemoUser } from "../../../../lib/demo-users";
  * stays in this process, and the browser receives only the public client id and
  * a token that expires in 15 minutes and works once.
  *
- * Raglantern refuses this exchange if it arrives with an `Origin` header,
+ * MCP Studio refuses this exchange if it arrives with an `Origin` header,
  * precisely so that calling it from the browser is not an option.
  */
 export const dynamic = "force-dynamic";

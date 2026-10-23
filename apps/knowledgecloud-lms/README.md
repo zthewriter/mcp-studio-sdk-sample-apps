@@ -1,6 +1,6 @@
 # KnowledgeCloud LMS (Sample App)
 
-A simple Next.js fullstack demo for an **enterprise training/LMS platform** embedding Raglantern SDK.
+A simple Next.js fullstack demo for an **enterprise training/LMS platform** embedding MCP Studio SDK.
 
 ## Concept
 
@@ -20,11 +20,11 @@ This powers context-grounded AI tutors and assistants for learners and managers.
 - Faster onboarding for new hires
 - Lower dependence on custom AI integrations for each customer
 
-## Where Raglantern is embedded
+## Where MCP Studio is embedded
 
 See `src/app/page.tsx`:
 
-- Right-side card: `"Embedded Raglantern SDK"`
+- Right-side card: `"Embedded MCP Studio SDK"`
 - Rendered by `src/components/McpStudioEmbed.tsx`
 
 ## Example SDK customizations in this demo
@@ -36,7 +36,7 @@ See `src/app/page.tsx`:
 
 ## SDK features in this app
 
-Each instructor is one Raglantern end user. Switch between instructors, or to the learning admin who oversees them.
+Each instructor is one MCP Studio end user. Switch between instructors, or to the learning admin who oversees them.
 
 | Feature | How KnowledgeCloud uses it | Where |
 |---|---|---|
@@ -56,11 +56,11 @@ The API-key panels need `MCP_STUDIO_API_KEY`; without it they say how to add one
 
 ## Run locally
 
-This demo needs your own Raglantern SDK credentials. It will not render the wizard without them, by design: a half-configured embed teaches the wrong integration, and the missing piece would only surface later as an attribution or billing question.
+This demo needs your own MCP Studio SDK credentials. It will not render the wizard without them, by design: a half-configured embed teaches the wrong integration, and the missing piece would only surface later as an attribution or billing question.
 
 ### 1. Get your credentials
 
-Sign in to the [Raglantern SDK portal](https://appatools.com/mcp-studio-sdk/portal) and copy your **Client ID** and **Client Secret**. The secret is shown in full only when you generate it.
+Sign in to the [MCP Studio SDK portal](https://appatools.com/mcp-studio-sdk/portal) and copy your **Client ID** and **Client Secret**. The secret is shown in full only when you generate it.
 
 ### 2. Configure the app
 
@@ -98,6 +98,6 @@ Your Client ID is public and reaches the browser. Your Client Secret must not, s
 
 The token proves the session belongs to your integration. It expires in 15 minutes and can be spent once, so this app mints a fresh one per page load instead of caching it.
 
-Neither variable is prefixed `NEXT_PUBLIC_`. Next.js inlines any `NEXT_PUBLIC_*` value into the JavaScript bundle, so naming the secret that way would publish it to every visitor. Raglantern also refuses the token exchange when it arrives from a browser, which turns that mistake into a loud failure rather than a quiet leak.
+Neither variable is prefixed `NEXT_PUBLIC_`. Next.js inlines any `NEXT_PUBLIC_*` value into the JavaScript bundle, so naming the secret that way would publish it to every visitor. MCP Studio also refuses the token exchange when it arrives from a browser, which turns that mistake into a loud failure rather than a quiet leak.
 
 Full explanation: [Verify embed sessions](https://docs.appatools.com/sdk/guides/attribution-tokens).

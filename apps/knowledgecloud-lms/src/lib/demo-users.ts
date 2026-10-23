@@ -1,7 +1,7 @@
 /**
- * KnowledgeCloud's instructors. Each instructor is one Raglantern end user,
+ * KnowledgeCloud's instructors. Each instructor is one MCP Studio end user,
  * so the servers behind their course are theirs alone. None of them needs an
- * Raglantern account.
+ * MCP Studio account.
  */
 export const DEMO_USERS = [
   { id: "lms-instructor-maya", label: "Maya Chen", course: "Security Awareness 101" },

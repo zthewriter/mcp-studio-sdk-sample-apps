@@ -216,8 +216,8 @@ export default function HomePage() {
         <article className="card">
           <h2>{customer.label}&apos;s MCP servers</h2>
           <p className="muted">
-            {customer.label}&apos;s admins build and manage servers here without a Raglantern account.
-            Their limits come from HelpDesk IQ&apos;s SDK plan, not from Raglantern&apos;s free tier.
+            {customer.label}&apos;s admins build and manage servers here without an MCP Studio account.
+            Their limits come from HelpDesk IQ&apos;s SDK plan, not from MCP Studio&apos;s free tier.
           </p>
           {workspace?.servers != null && (
             <div style={{ margin: "10px 0 14px" }}>
