@@ -2,7 +2,7 @@
   "name": "mcp-studio-sdk-sample-apps",
   "private": true,
   "version": "1.0.0",
-  "description": "Sample Next.js apps embedding Raglantern SDK in different product concepts.",
+  "description": "Sample Next.js apps embedding MCP Studio SDK in different product concepts.",
   "workspaces": [
     "apps/*"
   ],
